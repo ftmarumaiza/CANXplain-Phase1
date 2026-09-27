@@ -1,0 +1,137 @@
+# CANXplain Phase 1 — base configuration.
+#
+# debug.yaml and full.yaml both inherit from this file and override only
+# what differs. The entire experiment is reproducible from one of those
+# two files plus the data on disk.
+
+run:
+  mode: base
+  seeds: [0]
+  output_dir: results/base
+  save_models: true
+  cross_dataset: true
+  refit_on: train_val          # train_val | train
+  debug_traceback: false
+  # source_datasets: [car_hacking]   # uncomment to restrict training sources
+  # cross_targets: [can_ids]         # uncomment to restrict transfer targets
+
+data:
+  cache_dir: data/cache
+  window_size: 10              # n consecutive CAN messages per window
+  step: 1                      # 1 = maximally overlapping windows
+
+  # Chronological, contiguous, purged. See data/windowing.py.
+  split:
+    train: 0.6
+    val: 0.2
+    test: 0.2
+
+  # Caps on the number of windows kept per block. With step=1 the raw
+  # window count equals the message count, which is far more than the
+  # search needs. Windows are subsampled by EVEN SPACING, not randomly.
+  max_windows:
+    train: 40000
+    val: 12000
+    test: 12000
+    cross_target: 20000
+
+  datasets:
+    car_hacking:
+      adapter: car_hacking
+      path: data/raw/car_hacking
+      max_messages: 400000
+    can_ids:
+      adapter: can_ids
+      path: data/raw/can_ids
+      max_messages: 400000
+    # Add more datasets without touching any code:
+    # ornl:
+    #   adapter: ornl
+    #   path: data/raw/ornl
+    #   max_messages: 400000
+    #   attack_start: 0.0        # only needed when the capture has no label column
+    #   attack_end: 0.0
+    # sad:
+    #   adapter: sad
+    #   path: data/raw/sad
+    #   max_messages: 400000
+
+features:
+  # Groups: basic | temporal | temporal_id | frequency | dlc
+  # Ablations A6/A7/A8 override this per arm; this is the A0 set.
+  groups: [temporal, temporal_id, frequency, dlc]
+
+models:
+  rf:
+    space:
+      n_estimators: [50, 100, 150, 200]
+      max_depth: [6, 10, 14, 20, null]
+      min_samples_split: [2, 5, 10]
+      min_samples_leaf: [1, 2, 4]
+      max_features: [sqrt, log2, 0.5]
+  dnn:
+    backend: sklearn           # sklearn | torch  (torch adds real dropout)
+    space:
+      n_hidden_layers: [1, 2, 3, 4]
+      neurons_per_layer: [16, 32, 64, 128]
+      taper: [1.0, 0.5]        # 0.5 halves each successive hidden layer
+      learning_rate: [0.0005, 0.001, 0.005]
+      batch_size: [128, 256, 512]
+      epochs: [20, 40, 60]
+      alpha: [0.0001, 0.001]   # L2; with backend=torch add a dropout axis here
+  # Fixed configurations for ablations A1 and A5. Deliberately sensible
+  # defaults, not strawmen.
+  defaults:
+    rf:
+      n_estimators: 100
+      max_depth: null
+      min_samples_split: 2
+      min_samples_leaf: 1
+      max_features: sqrt
+    dnn:
+      n_hidden_layers: 2
+      neurons_per_layer: 64
+      taper: 1.0
+      learning_rate: 0.001
+      batch_size: 256
+      epochs: 40
+      alpha: 0.0001
+
+meta:
+  families: [rf, dnn]
+  population: 12               # candidates alive per round
+  rounds: 6                    # competition rounds
+  survivors: 6                 # size of W after the elimination stage
+  epsilon: 0.3                 # P(explore) in the evolution operator
+  cv_folds: 4                  # blocked, purged folds inside the train block
+  shap:
+    max_explain_sample: 300    # rows explained per fold
+    max_background: 100        # background rows for the DNN explainer
+    dnn_max_evals: 300         # permutation-SHAP evaluation budget
+    topk: 5                    # k for the Jaccard top-k diagnostic
+
+fitness:
+  # Fitness = alpha*Accuracy + beta*SHAP_Consistency - gamma*Complexity
+  # The justification for these defaults is in canxplain/meta/fitness.py
+  # and they are swept by run_sensitivity.py. Do not treat them as tuned.
+  alpha: 0.50
+  beta: 0.30
+  gamma: 0.20
+  use_shap_consistency: true
+  use_complexity: true
+  accuracy_metric: balanced_accuracy   # accuracy | balanced_accuracy
+  consistency_metric: spearman         # spearman | kendall
+
+ablation:
+  arms: [A0, A1, A2, A3, A4, A5, A6, A7, A8]
+
+sensitivity:
+  grid:
+    - [1.00, 0.00, 0.00]
+    - [0.80, 0.10, 0.10]
+    - [0.60, 0.25, 0.15]
+    - [0.50, 0.30, 0.20]
+    - [0.40, 0.40, 0.20]
+    - [0.34, 0.33, 0.33]
+    - [0.30, 0.50, 0.20]
+    - [0.40, 0.20, 0.40]

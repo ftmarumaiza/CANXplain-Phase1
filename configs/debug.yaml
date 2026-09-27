@@ -1,0 +1,70 @@
+# DEBUG MODE — small, fast, for verifying the pipeline works end to end.
+#
+# Everything is shrunk: fewer messages, fewer windows, a tiny population,
+# two competition rounds, one seed. On an i3 this finishes in a couple of
+# minutes for the whole ablation.
+#
+# Numbers produced in DEBUG MODE are NOT research results. One seed gives
+# no variance estimate, and the search barely explores. Use it to confirm
+# the plumbing, then switch to full.yaml.
+
+inherits: base.yaml
+
+run:
+  mode: debug
+  seeds: [0]
+  output_dir: results/debug
+  save_models: true
+  debug_traceback: true
+
+data:
+  max_windows:
+    train: 4000
+    val: 1500
+    test: 1500
+    cross_target: 2000
+  datasets:
+    car_hacking:
+      adapter: car_hacking
+      path: data/raw/car_hacking
+      max_messages: 40000
+    can_ids:
+      adapter: can_ids
+      path: data/raw/can_ids
+      max_messages: 40000
+
+meta:
+  population: 4
+  rounds: 2
+  survivors: 2
+  epsilon: 0.3
+  cv_folds: 3
+  shap:
+    max_explain_sample: 100
+    max_background: 50
+    dnn_max_evals: 120
+    topk: 5
+
+models:
+  dnn:
+    space:
+      n_hidden_layers: [1, 2]
+      neurons_per_layer: [16, 32]
+      taper: [1.0]
+      learning_rate: [0.001]
+      batch_size: [256]
+      epochs: [15]
+      alpha: [0.0001]
+  rf:
+    space:
+      n_estimators: [30, 60]
+      max_depth: [6, 10]
+      min_samples_split: [2, 5]
+      min_samples_leaf: [1, 2]
+      max_features: [sqrt]
+
+sensitivity:
+  grid:
+    - [1.00, 0.00, 0.00]
+    - [0.50, 0.30, 0.20]
+    - [0.30, 0.50, 0.20]

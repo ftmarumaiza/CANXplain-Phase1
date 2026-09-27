@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+env/
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+
+# Datasets
+data/raw/
+data/cache/
+
+# Generated experiment outputs
+results/
+
+# Python / tool caches
+.pytest_cache/
+.mypy_cache/
+.ipynb_checkpoints/
+
+# OS files
+.DS_Store
+Thumbs.db

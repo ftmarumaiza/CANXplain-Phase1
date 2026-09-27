@@ -1,0 +1,52 @@
+# FULL MODE — the configuration the reported experiment should use.
+#
+# Budget on an Intel i3, no GPU, three datasets, all nine ablation arms:
+# expect roughly 3-8 hours (more, with a third dataset). Cut meta.rounds
+# or run.seeds first if that is too long; cut max_windows only as a last
+# resort, since window count is what makes the test set large enough to
+# trust.
+#
+# Three seeds is the practical minimum for a mean and a spread. It is NOT
+# enough for a significance claim — the paired tests flag themselves as
+# underpowered below five. If the schedule allows, use [0,1,2,3,4].
+
+inherits: base.yaml
+
+run:
+  mode: full
+  seeds: [0, 1, 2]
+  output_dir: results/full
+  save_models: true
+  cross_dataset: true
+
+data:
+  max_windows:
+    train: 40000
+    val: 12000
+    test: 12000
+    cross_target: 20000
+  datasets:
+    car_hacking:
+      adapter: car_hacking
+      path: data/raw/car_hacking
+      max_messages: 500000
+    can_ids:
+      adapter: can_ids
+      path: data/raw/can_ids
+      max_messages: 500000
+    road:
+      adapter: ornl
+      path: data/raw/road_csv
+      max_messages: 500000
+
+meta:
+  population: 12
+  rounds: 6
+  survivors: 6
+  epsilon: 0.3
+  cv_folds: 4
+  shap:
+    max_explain_sample: 300
+    max_background: 100
+    dnn_max_evals: 300
+    topk: 5
