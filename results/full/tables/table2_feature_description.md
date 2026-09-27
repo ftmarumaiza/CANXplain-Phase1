@@ -1,0 +1,27 @@
+**Table 2: Vendor-agnostic feature set (no payload content)**
+
+| feature        | group       | description                                                                          |
+|:---------------|:------------|:-------------------------------------------------------------------------------------|
+| iat_mean       | temporal    | Mean inter-arrival time between consecutive frames (the mean inter-frame gap, wmdt)  |
+| iat_std        | temporal    | Standard deviation of inter-arrival times; raw timing variation                      |
+| iat_min        | temporal    | Minimum inter-arrival time; collapses under flooding/DoS injection                   |
+| iat_max        | temporal    | Maximum inter-arrival time; grows when legitimate traffic is starved                 |
+| iat_median     | temporal    | Median inter-arrival time; outlier-robust centre of the timing distribution          |
+| iat_cv         | temporal    | Coefficient of variation of inter-arrival times (std/mean); scale-free burstiness    |
+| iat_range      | temporal    | Max minus min inter-arrival time                                                     |
+| msg_rate_hz    | temporal    | Messages per second over the window, msg_count / window_duration                     |
+| dt_id_mean     | temporal_id | Mean time since the previous occurrence of the same CAN ID (dt_ID family)            |
+| dt_id_std      | temporal_id | Standard deviation of same-ID recurrence intervals; periodic IDs have low values     |
+| dt_id_min      | temporal_id | Minimum same-ID recurrence interval; drops sharply under ID spoofing                 |
+| dt_id_max      | temporal_id | Maximum same-ID recurrence interval                                                  |
+| dt_id_cv       | temporal_id | Coefficient of variation of same-ID recurrence intervals                             |
+| n_unique_ids   | frequency   | Number of distinct CAN IDs in the window                                             |
+| id_diversity   | frequency   | Distinct IDs divided by message count; 1.0 means no ID repeats                       |
+| cmafid         | frequency   | Occurrence count of the most frequent CAN ID in the window                           |
+| cmifid         | frequency   | Occurrence count of the least frequent CAN ID in the window                          |
+| id_entropy     | frequency   | Shannon entropy (nats) of the CAN-ID distribution; falls when one ID dominates       |
+| n_repeated_ids | frequency   | Number of distinct IDs appearing more than once in the window                        |
+| max_id_share   | frequency   | Share of the window held by the most frequent ID, cmafid / msg_count                 |
+| dlc_mean       | dlc         | Mean data length code across the window (protocol length field, not payload content) |
+| dlc_std        | dlc         | Standard deviation of the data length code                                           |
+| dlc_max        | dlc         | Maximum data length code in the window                                               |

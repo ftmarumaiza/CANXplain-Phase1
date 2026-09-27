@@ -1,0 +1,52 @@
+CANXplain Phase 1 — run summary
+==================================
+
+Total run records : 348 (24 from this stage)
+Arms evaluated    : A0, A1, A2, A3, A4, A5, A6, A7, A8, sensitivity
+Seeds             : [0, 1, 2]
+
+Same-dataset (mean over seeds and datasets):
+        f1  accuracy  shap_consistency  complexity
+arm                                               
+A0  0.8884    0.8575            0.9166   2704.3333
+A1  0.9109    0.8907            0.9207 414347.4444
+A2  0.8950    0.8662            0.8899 312947.0000
+A3  0.8688    0.8112            0.8280    473.8889
+A4  0.9043    0.8739            0.9280 390935.4444
+A5  0.9109    0.8907            0.9207 414347.4444
+A6  0.8296    0.7536            0.9815   1426.1111
+A7  0.8708    0.8170            0.8241   2333.5556
+A8  0.8188    0.7354            0.8955    324.3333
+
+Cross-dataset (mean over seeds and pairs) — the generalisation result:
+        f1  accuracy  roc_auc
+arm                          
+A0  0.6383    0.5578   0.6344
+A1  0.6496    0.5814   0.6451
+A2  0.6189    0.5741   0.6362
+A3  0.6515    0.5596   0.6088
+A4  0.6233    0.5538   0.6349
+A5  0.6496    0.5814   0.6451
+A6  0.6207    0.5440   0.6316
+A7  0.5979    0.5470   0.5888
+A8  0.6331    0.5510   0.6417
+
+Reading these numbers:
+  - 3 seed(s) were run. Differences smaller than the seed-to-seed spread in Table 6 are not results.
+  - Cross-dataset rows are the ones that bear on the generalisation claim; same-dataset rows do not.
+  - No claim that CANXplain improves over its ablations is made by this file. Check Table 6 and statistical_tests.csv and decide for yourself.
+
+Fitness weight sensitivity
+--------------------------
+             weights  alpha   beta  gamma  selected_accuracy  selected_shap_consistency  selected_complexity selected_family
+   α=0.3 β=0.5 γ=0.2 0.3000 0.5000 0.2000             0.8922                     0.9202            1561.0000             dnn
+α=0.34 β=0.33 γ=0.33 0.3400 0.3300 0.3300             0.8832                     0.8766             401.0000             dnn
+   α=0.4 β=0.2 γ=0.4 0.4000 0.2000 0.4000             0.8909                     0.8646             401.0000             dnn
+   α=0.4 β=0.4 γ=0.2 0.4000 0.4000 0.2000             0.9065                     0.9281            2549.5000              rf
+   α=0.5 β=0.3 γ=0.2 0.5000 0.3000 0.2000             0.8991                     0.9096            1561.0000             dnn
+ α=0.6 β=0.25 γ=0.15 0.6000 0.2500 0.1500             0.8991                     0.9096            1561.0000             dnn
+   α=0.8 β=0.1 γ=0.1 0.8000 0.1000 0.1000             0.9188                     0.8680            1790.3333             dnn
+         α=1 β=0 γ=0 1.0000 0.0000 0.0000             0.9366                        NaN           28105.6667             dnn
+
+Distinct configurations selected across the grid: 15
+The selection does respond to the weights. Report this table alongside the default rather than presenting 0.5/0.3/0.2 as if it were derived.

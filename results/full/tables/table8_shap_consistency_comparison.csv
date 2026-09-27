@@ -1,0 +1,22 @@
+arm,arm_name,dataset_train,model_family,n_runs,n_seeds,shap_consistency,shap_consistency_spearman,shap_consistency_kendall,shap_jaccard_top5,shap_consistency_raw_mean,shap_consistency_raw_std,n_features,comparable_to_A0
+A0,Full CANXplain,can_ids,dnn,3,3,0.8669 ± 0.0120,0.8669 ± 0.0120,0.7865 ± 0.0121,0.3823 ± 0.1800,0.7338 ± 0.0240,0.0398 ± 0.0116,23,yes
+A0,Full CANXplain,road,rf,3,3,0.9734 ± 0.0033,0.9734 ± 0.0033,0.9169 ± 0.0066,0.5847 ± 0.0200,0.9468 ± 0.0067,0.0166 ± 0.0035,23,yes
+A1,Without meta-learning,can_ids,dnn,3,3,0.8396 ± 0.0260,0.8396 ± 0.0260,0.7609 ± 0.0344,0.2544 ± 0.0076,0.6792 ± 0.0519,0.0695 ± 0.0083,23,yes
+A1,Without meta-learning,road,rf,3,3,0.9796 ± 0.0029,0.9796 ± 0.0029,0.9285 ± 0.0047,0.8889 ± 0.0962,0.9591 ± 0.0059,0.0159 ± 0.0065,23,yes
+A2,Accuracy-only selection,can_ids,dnn,3,3,0.8203 ± 0.0200,0.8203 ± 0.0200,0.7327 ± 0.0117,0.3183 ± 0.1425,0.6405 ± 0.0400,0.0817 ± 0.0171,23,yes
+A2,Accuracy-only selection,road,rf,3,3,0.9798 ± 0.0003,0.9798 ± 0.0003,0.9318 ± 0.0034,0.8333 ± 0.0000,0.9596 ± 0.0007,0.0188 ± 0.0014,23,yes
+A3,Without SHAP consistency,can_ids,dnn,3,3,0.8679 ± 0.0123,0.8679 ± 0.0123,0.7829 ± 0.0104,0.2588 ± 0.0469,0.7358 ± 0.0246,0.0422 ± 0.0112,23,yes
+A3,Without SHAP consistency,road,dnn,3,3,0.7734 ± 0.0267,0.7734 ± 0.0267,0.7031 ± 0.0216,0.3073 ± 0.0383,0.5467 ± 0.0534,0.0953 ± 0.0220,23,yes
+A4,Without complexity penalty,can_ids,dnn,3,3,0.8529 ± 0.0222,0.8529 ± 0.0222,0.7715 ± 0.0304,0.3690 ± 0.0000,0.7058 ± 0.0443,0.0844 ± 0.0464,23,yes
+A4,Without complexity penalty,road,rf,3,3,0.9795 ± 0.0015,0.9795 ± 0.0015,0.9294 ± 0.0022,0.8333 ± 0.0000,0.9590 ± 0.0030,0.0190 ± 0.0028,23,yes
+A5,No meta-learning + accuracy-only,can_ids,dnn,3,3,0.8396 ± 0.0260,0.8396 ± 0.0260,0.7609 ± 0.0344,0.2544 ± 0.0076,0.6792 ± 0.0519,0.0695 ± 0.0083,23,yes
+A5,No meta-learning + accuracy-only,road,rf,3,3,0.9796 ± 0.0029,0.9796 ± 0.0029,0.9285 ± 0.0047,0.8889 ± 0.0962,0.9591 ± 0.0059,0.0159 ± 0.0065,23,yes
+A6,Reduced feature set,can_ids,dnn,3,3,0.9444 ± 0.0962,0.9444 ± 0.0962,0.9259 ± 0.1283,1.0000 ± 0.0000,0.8889 ± 0.1925,0.0786 ± 0.1361,3,no (short feature vector)
+A6,Reduced feature set,road,dnn,1,1,1.0000,1.0000,1.0000,1.0000,1.0000,0.0000,3,no (short feature vector)
+A6,Reduced feature set,road,rf,2,2,1.0000 ± 0.0000,1.0000 ± 0.0000,1.0000 ± 0.0000,1.0000 ± 0.0000,1.0000 ± 0.0000,0.0000 ± 0.0000,3,no (short feature vector)
+A7,Temporal features only,can_ids,dnn,3,3,0.7653 ± 0.0445,0.7653 ± 0.0445,0.6952 ± 0.0300,0.4153 ± 0.0999,0.5305 ± 0.0890,0.1136 ± 0.0316,13,yes
+A7,Temporal features only,road,dnn,1,1,0.7569,0.7569,0.6752,0.4385,0.5137,0.2196,13,yes
+A7,Temporal features only,road,rf,2,2,0.9164 ± 0.0087,0.9164 ± 0.0087,0.8494 ± 0.0136,0.6627 ± 0.0842,0.8329 ± 0.0175,0.1038 ± 0.0037,13,yes
+A8,Frequency features only,can_ids,dnn,1,1,0.7619,0.7619,0.7143,0.6667,0.5238,0.2862,7,yes
+A8,Frequency features only,can_ids,rf,2,2,0.9375 ± 0.0042,0.9375 ± 0.0042,0.8730 ± 0.0000,0.7778 ± 0.0000,0.8750 ± 0.0084,0.0388 ± 0.0310,7,yes
+A8,Frequency features only,road,dnn,3,3,0.8423 ± 0.0298,0.8423 ± 0.0298,0.7910 ± 0.0242,0.7778 ± 0.0556,0.6845 ± 0.0595,0.1871 ± 0.0474,7,yes

@@ -16,7 +16,22 @@ data/raw/
 data/cache/
 
 # Generated experiment outputs
-results/
+results/*
+!results/full/
+!results/full/SUMMARY.txt
+!results/full/figures/
+!results/full/figures/*
+!results/full/tables/
+!results/full/tables/*
+
+# Keep large/detailed experiment artifacts out of GitHub
+results/full/models/
+results/full/artifacts/
+results/full/runs.csv
+results/full/runs.jsonl
+results/full/environment.json
+results/full/resolved_config.json
+results/full/ABLATION.md
 
 # Python / tool caches
 .pytest_cache/

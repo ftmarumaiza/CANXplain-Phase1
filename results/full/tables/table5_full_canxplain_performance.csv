@@ -1,0 +1,3 @@
+dataset_train,model_family,n_runs,n_seeds,accuracy,balanced_accuracy,precision,recall,f1,roc_auc,shap_consistency,complexity,training_time_s,inference_time_per_window_ms
+can_ids,dnn,3,3,0.8531 ± 0.0181,0.7282 ± 0.0437,0.8496 ± 0.0225,0.9779 ± 0.0075,0.9091 ± 0.0096,0.9257 ± 0.0110,0.8669 ± 0.0120,443.6667 ± 73.9008,3.3743 ± 2.1651,0.0010 ± 0.0003
+road,rf,3,3,0.7256 ± 0.0023,0.7173 ± 0.0018,0.7394 ± 0.0005,0.7870 ± 0.0065,0.7625 ± 0.0030,0.7986 ± 0.0012,0.9734 ± 0.0033,6004.0000 ± 31.0483,2.0685 ± 0.0272,0.0154 ± 0.0003
